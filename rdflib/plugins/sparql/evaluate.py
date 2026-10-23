@@ -649,7 +649,11 @@ def evalConstructQuery(
 
     if not template:
         # a construct-where query
-        template = query.p.p.triples  # query->project->bgp ...
+        # query->[slice->][orderby->]project->bgp ...
+        bgp = query.p
+        while bgp.name != "BGP":
+            bgp = bgp.p
+        template = bgp.triples
 
     graph = Graph()
 
