@@ -717,7 +717,8 @@ def translate(q: CompValue) -> tuple[Optional[CompValue], list[Variable]]:
                 raise Exception("I expected a var or evar here!")
 
         for e, v in E:
-            M = Extend(M, e, v)
+            # translate the graph pattern of EXISTS / NOT EXISTS, if any
+            M = Extend(M, translateExists(traverse(e, visitPost=translatePath)), v)
 
     # ORDER BY
     if q.orderby:
