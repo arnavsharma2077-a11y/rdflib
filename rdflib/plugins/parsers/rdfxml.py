@@ -397,7 +397,8 @@ class RDFXMLHandler(handler.ContentHandler):
 
         if self.parent.object and self.current != self.stack[2]:
             self.error(
-                "Repeat node-elements inside property elements: %s" % "".join(name)
+                "Repeat node-elements inside property elements: %s"
+                % "".join(part for part in name if part is not None)
             )
 
         self.parent.object = self.current.subject
